@@ -1,12 +1,15 @@
 # tsoha-chat
-Aihe ja teksti kurssisivulta (Kuinka valita aihe)
-
 Keskustelusovellus
 Sovelluksessa näkyy keskustelualueita, joista jokaisella on tietty aihe. Alueilla on keskusteluketjuja, jotka muodostuvat viesteistä. Jokainen käyttäjä on peruskäyttäjä tai ylläpitäjä.
 
-Sovelluksen ominaisuuksia:
 
-Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen.
+Nykytilanne:
+
+Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen. Käyttäjä näkee sovelluksen etusivulla listan alueista sekä ketjujen määrän sekä viimeksi lähetetyn viestin ajankohdan. Käyttäjä voi luoda uuden alueen, keskustelun tai lähettää viestin. 
+
+
+Tavoite:
+
 Käyttäjä näkee sovelluksen etusivulla listan alueista sekä jokaisen alueen ketjujen ja viestien määrän ja viimeksi lähetetyn viestin ajankohdan.
 Käyttäjä voi luoda alueelle uuden ketjun antamalla ketjun otsikon ja aloitusviestin sisällön.
 Käyttäjä voi kirjoittaa uuden viestin olemassa olevaan ketjuun.
@@ -14,3 +17,6 @@ Käyttäjä voi muokata luomansa ketjun otsikkoa sekä lähettämänsä viestin 
 Käyttäjä voi etsiä kaikki viestit, joiden osana on annettu sana.
 Ylläpitäjä voi lisätä ja poistaa keskustelualueita.
 Ylläpitäjä voi luoda salaisen alueen ja määrittää, keillä käyttäjillä on pääsy alueelle.
+
+
+
