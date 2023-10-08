@@ -70,13 +70,19 @@ def logout():
 def register():
     if request.method == "GET":
         return render_template("register.html")
+
     if request.method == "POST":
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
         if password1 != password2:
             return render_template("error.html", message="Rekisteröinti ei onnistunut, salasanat eivät vastaa toisiaan")
-        if users.register(username, password1):
+
+        role = request.form["role"]
+        if role not in ("1", "2"):
+            return render_template("error.html", message="Rekisteröinti ei onnistunut, tuntematon käyttäjärooli")
+
+        if users.register(username, password1, role):
             return redirect("/")
         else:
             return render_template("error.html", message="Rekisteröinti ei onnistunut, käyttäjätunnus käytössä")
