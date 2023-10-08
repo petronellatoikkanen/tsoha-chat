@@ -1,4 +1,11 @@
 <form action="/send_message" method="post">
+ Keskustelu, johon haluat kirjoittaa:<br>
+    {% for convo in convos %}
+
+    <input type="radio" name="convo" value="{{ convo.convo }}"> {{ convo.convo }} <br>
+        
+    {% endfor %}
+
     Uusi viesti: <br>
     <textarea name="content" rows="5" cols="50"></textarea>
     <br>

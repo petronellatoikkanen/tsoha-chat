@@ -1,20 +1,35 @@
 {% if session.user_id %}
 Olet nyt kirjautunut sisään. 
 <hr>
-{% for topic in topics %}
-Keskustelualue: {{ topic[0] }}
-<p>
-Keskusteluiden määrä: {{ countc }}
-<p>
-Viestien määrä: {{ countm }}
-Viimeisin viesti: {{ topic[2].strftime("%d.%m.%Y klo %H:%M") }}
-<p>
-{% endfor %}
 <hr>
-<a href="/new_message">Lähetä viesti</a>, <a href="/new_conversation">aloita uusi keskustelu</a> tai <a href="/new_topic">avaa uusi keskustelualue</a>
+{% for row in info %}
+Keskustelualue: {{ row[0] }}
+<p>
+Keskusteluiden määrä: {{ row[1] }}
+<p>
+Viestien määrä: {{ row [2] }}
+<p>
+Viimeisin viesti: {{ row[3].strftime("%d-%m-%Y %H:%M:%S") }}
+<p></p>
+<hr>
+{% endfor %}
+<p>
+<hr>
+
+<a href="/new_message">Lähetä viesti</a> tai <a href="/new_conversation">aloita uusi keskustelu</a> 
+<p>
+<hr>
+<hr>
+{% if session.user_role == 2 %}
+<a href="/new_topic">Avaa uusi keskustelualue</a>
+<p></p>
+<a href="/remove">Poista keskustelualue</a>
+{% endif %}
+
 <p> </p>
 <a href="/logout">Kirjaudu ulos</a>
 {% else %}
+
 Tervetuloa Tsoha-chattiin! 
 <a href="/login">Kirjaudu sisään</a>
 <p>

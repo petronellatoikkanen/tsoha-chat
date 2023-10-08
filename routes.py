@@ -4,19 +4,22 @@ import messages, users, conversations, topics
 
 @app.route("/")
 def index():
-    msgs = messages.get_list()
-    convos = conversations.get_list()
-    tpcs = topics.get_list()
-    return render_template("index.html", countt=len(tpcs), countc=len(convos), countm=len(msgs), conversations=convos, messages=msgs, topics=tpcs)
+    info = topics.indexinfo()
+    return render_template("index.html", info=info)
+
+
+####################### messages & conversations #########################
 
 @app.route("/new_message")
 def new_messages():
-    return render_template("new_message.html")
+    convos = conversations.get_list()
+    return render_template("new_message.html", convos=convos)
 
 @app.route("/send_message", methods=["POST"])
 def send_message():
     content = request.form["content"]
-    if messages.send_message(content):
+    convo = request.form["convo"]
+    if messages.send_message(content, convo):
         return redirect("/")
     else:
         return render_template("error.html", message="Viestin lähetys ei onnistunut")
@@ -24,20 +27,26 @@ def send_message():
 
 @app.route("/new_conversation")
 def new_conversations():
-    return render_template("new_conversation.html")
+    tpcs = topics.get_list()
+    return render_template("new_conversation.html", tpcs=tpcs)
 
 @app.route("/create_conversation", methods=["POST"])
 def create_conversation():
+    topic = request.form["topic"]
     convo = request.form["convo"]
-    if conversations.create_conversation(convo):
+    if conversations.create_conversation(convo, topic):
         return redirect("/")
     else:
-        return render_template("error.html", message="Keskustelun aloittaminen ei onnistunut")
+        return render_template("error.html", message="Keskustelun aloittaminen ei onnistunut, tarkista keskustelualueen nimi ja kokeile uudestaan")
+
+####################### topics #########################
 
 
 @app.route("/new_topic")
 def new_topics():
+    convos = conversations.get_list()
     return render_template("new_topic.html")
+
 
 @app.route("/create_topic", methods=["POST"])
 def create_topic():
@@ -48,6 +57,25 @@ def create_topic():
         return render_template("error.html", message="Alueen luominen ei onnistu, pyydä ylläpitäjää luomaan alue")
 
 
+@app.route("/remove", methods=["get", "post"])
+def remove_topic():
+    users.require_role(2)
+
+    if request.method == "GET":
+        tpcs = topics.get_list()
+        return render_template("remove.html", tpcs=tpcs)
+
+    if request.method == "POST":
+        users.check_csrf()
+
+        if "topic" in request.form:
+            topic_id = request.form["topic"]
+            topics.remove_topic(topic_id)
+
+        return redirect("/")
+
+
+########################## login, logout, register #########################
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

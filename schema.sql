@@ -21,5 +21,6 @@ CREATE TABLE topics (
     id SERIAL PRIMARY KEY,
     topic TEXT,
     user_id INTEGER REFERENCES users,
-    created TIMESTAMP
+    created TIMESTAMP,
+    visible INTEGER
 );

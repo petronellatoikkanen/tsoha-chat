@@ -3,7 +3,12 @@ import users
 from sqlalchemy.sql import text
 
 def get_list():
-    sql = text("SELECT T.topic, U.username, T.created FROM topics T, users U WHERE T.user_id=U.id ORDER BY T.id")
+    sql = text("SELECT id, topic from topics where visible = 1")
+    result = db.session.execute(sql)
+    return result.fetchall()
+
+def indexinfo():
+    sql = text("select topics.topic, COALESCE(count(conversations.topic_name), 0), COALESCE(count(messages.content), 0), COALESCE(NULLIF(MAX(messages.sent_at), NULL), NULL) from topics left join conversations on topics.topic=conversations.topic_name left join messages on conversations.convo=messages.convo_name where topics.visible=1 group by topics.topic")
     result = db.session.execute(sql)
     return result.fetchall()
 
@@ -15,3 +20,9 @@ def create_topic(topic):
     db.session.execute(sql, {"topic":topic, "user_id":user_id})
     db.session.commit()
     return True
+
+
+def remove_topic(topic_id):
+    sql =  text("UPDATE topics SET visible=0 WHERE id=:id")
+    db.session.execute(sql, {"id":topic_id})
+    db.session.commit()
