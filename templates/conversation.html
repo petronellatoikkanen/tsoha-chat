@@ -1,0 +1,13 @@
+Keskustelu: {{ convo_name }}
+<hr>
+{% for message in msgs %}
+<i>Viesti:</i> {{ message[1] }}
+<p>
+<i>Lähettäjä:</i> {{ message[2] }}
+<p>
+<i>Aika:</i> {{ message[0].strftime("%Y-%m-%d %H:%M:%S") }}
+<hr>
+{% endfor %}
+
+
+<a href="/new_message">Lisää uusi kommentti</a> tai <a href="/">Palaa etusivulle</a> 

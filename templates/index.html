@@ -20,6 +20,21 @@ Viimeisin viesti: {{ row[3].strftime("%d-%m-%Y %H:%M:%S") }}
 <p>
 <hr>
 <hr>
+
+Valitse keskustelu, jota haluat lukea:
+
+<ul>
+{% for convo in convos %}
+<li><a href="/conversation/{{ convo.convo }}">{{ convo.convo }}</a>
+{% endfor %}
+</ul>
+<hr>
+<hr>
+
+<a href="/search_messages">Etsi viestejä hakusanalla</a>
+
+<hr>
+<hr>
 {% if session.user_role == 2 %}
 <a href="/new_topic">Avaa uusi keskustelualue</a>
 <p></p>

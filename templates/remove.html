@@ -1,0 +1,21 @@
+<form action="/remove" method="post">
+
+<p>Minkä keskustelualeen haluat poistaa?</p>
+
+{% for topic in tpcs %}
+
+<input type="radio" name="topic" value="{{ topic.id }}"> {{ topic.topic }} <br>
+
+{% endfor %}
+
+<p>
+
+<input type="submit" value="Poista">
+
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+
+</form>
+
+<p>
+<a href="/">Palaa takaisin</a>
+

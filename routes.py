@@ -5,10 +5,11 @@ import messages, users, conversations, topics
 @app.route("/")
 def index():
     info = topics.indexinfo()
-    return render_template("index.html", info=info)
+    convos = conversations.get_list()
+    return render_template("index.html", info=info, convos=convos)
 
 
-####################### messages & conversations #########################
+####################### messages  #########################
 
 @app.route("/new_message")
 def new_messages():
@@ -25,6 +26,20 @@ def send_message():
         return render_template("error.html", message="Viestin lähetys ei onnistunut")
 
 
+@app.route("/search_messages")
+def seacrh_m():
+   return render_template("search_messages.html")
+
+@app.route("/search_message", methods=["POST"])
+def search_message():
+    word = request.form["word"]
+    msgs = messages.search_message(word)
+    return render_template("search_messages_result.html", word = word, msgs = msgs)
+
+
+
+#######################  conversations #########################
+
 @app.route("/new_conversation")
 def new_conversations():
     tpcs = topics.get_list()
@@ -38,6 +53,18 @@ def create_conversation():
         return redirect("/")
     else:
         return render_template("error.html", message="Keskustelun aloittaminen ei onnistunut, tarkista keskustelualueen nimi ja kokeile uudestaan")
+
+
+####################### show conversation ####################
+
+
+@app.route("/conversation/<convo_name>")
+def show_conversation(convo_name):
+    convo_name = convo_name
+    msgs = messages.get_list(convo_name)
+
+    return render_template("conversation.html", convo_name=convo_name, msgs=msgs)
+
 
 ####################### topics #########################
 
@@ -54,7 +81,7 @@ def create_topic():
     if topics.create_topic(topic):
         return redirect("/")
     else:
-        return render_template("error.html", message="Alueen luominen ei onnistu, pyydä ylläpitäjää luomaan alue")
+        return render_template("error.html", message="Alueen luominen ei onnistut, yritä uudestaan")
 
 
 @app.route("/remove", methods=["get", "post"])

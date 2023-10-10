@@ -1,0 +1,16 @@
+Viestit, joista löytyy hakusana: {{ word }}
+<hr>
+{% for message in msgs %}
+<i>Keskustelu:</i> {{ message[3] }}
+<p></p>
+<i>Viesti:</i> {{ message[1] }}
+<p>
+<i>Lähettäjä:</i> {{ message[2] }}
+<p>
+<i>Aika:</i> {{ message[0].strftime("%Y-%m-%d %H:%M:%S") }}
+<hr>
+{% endfor %}
+
+
+<p>
+<a href="/">Palaa takaisin</a>
