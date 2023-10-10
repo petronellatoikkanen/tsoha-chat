@@ -10,7 +10,7 @@ def index():
 
 
 ####################### messages  #########################
-
+## new, send, delete
 @app.route("/new_message")
 def new_messages():
     convos = conversations.get_list()
@@ -25,7 +25,23 @@ def send_message():
     else:
         return render_template("error.html", message="Viestin lähetys ei onnistunut")
 
+@app.route("/delete_message", methods=["get", "post"])
+def delete_message():
+    user_id = users.user_id()
+    if request.method == "GET":
+        msgs = messages.get_user_messages(user_id)
+        return render_template("delete_message.html", msgs=msgs)
 
+    if request.method == "POST":
+        users.check_csrf()
+
+        if "message" in request.form:
+            message_id = request.form["message"]
+            messages.delete_message(message_id)
+
+        return redirect("/")
+
+#search
 @app.route("/search_messages")
 def seacrh_m():
    return render_template("search_messages.html")
@@ -39,7 +55,7 @@ def search_message():
 
 
 #######################  conversations #########################
-
+## new, send, delete
 @app.route("/new_conversation")
 def new_conversations():
     tpcs = topics.get_list()
@@ -54,10 +70,23 @@ def create_conversation():
     else:
         return render_template("error.html", message="Keskustelun aloittaminen ei onnistunut, tarkista keskustelualueen nimi ja kokeile uudestaan")
 
+@app.route("/delete_conversation", methods=["get", "post"])
+def delete_conversation():
+    user_id = users.user_id()
+    if request.method == "GET":
+        convos = conversations.get_user_conversations(user_id)
+        return render_template("delete_conversation.html", convos=convos)
 
-####################### show conversation ####################
+    if request.method == "POST":
+        users.check_csrf()
 
+        if "convo" in request.form:
+            convo_id = request.form["convo"]
+            conversations.delete_conversation(convo_id)
 
+        return redirect("/")
+
+#view
 @app.route("/conversation/<convo_name>")
 def show_conversation(convo_name):
     convo_name = convo_name

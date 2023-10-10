@@ -8,7 +8,8 @@ def get_list():
     return result.fetchall()
 
 def indexinfo():
-    sql = text("select topics.topic, COALESCE(count(conversations.topic_name), 0), COALESCE(count(messages.content), 0), COALESCE(NULLIF(MAX(messages.sent_at), NULL), NULL) from topics left join conversations on topics.topic=conversations.topic_name left join messages on conversations.convo=messages.convo_name where topics.visible=1 group by topics.topic")
+    # hakua pitää muokata
+    sql = text("select topics.topic, COALESCE(count(conversations.topic_name), 0), COALESCE(count(messages.content), 0), COALESCE(NULLIF(MAX(messages.sent_at), NULL), NULL) from topics left join conversations on topics.topic=conversations.topic_name left join messages on conversations.convo=messages.convo_name where topics.visible=1 group by topics.id")
     result = db.session.execute(sql)
     return result.fetchall()
 
@@ -23,6 +24,7 @@ def create_topic(topic):
 
 
 def remove_topic(topic_id):
+    ## kun poistaa keskustelualueen, niin myös alueen keskusteluihin ja viesteihin visiblen arvoksi 0
     sql =  text("UPDATE topics SET visible=0 WHERE id=:id")
     db.session.execute(sql, {"id":topic_id})
     db.session.commit()

@@ -7,14 +7,16 @@ CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
     content TEXT,
     user_id INTEGER REFERENCES users,
-    sent_at TIMESTAMP
+    sent_at TIMESTAMP, 
+    convo_name TEXT,
 );
 
 CREATE TABLE conversations (
     id SERIAL PRIMARY KEY,
-    content TEXT,
-    created_at INTEGER REFERENCES users,
-    sent_at TIMESTAMP
+    convo TEXT,
+    user_id INTEGER REFERENCES users,
+    created_at TIMESTAMP
+    topic_name TEXT
 );
 
 CREATE TABLE topics (

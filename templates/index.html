@@ -5,11 +5,20 @@ Olet nyt kirjautunut sisään.
 {% for row in info %}
 Keskustelualue: {{ row[0] }}
 <p>
+{% if row[1] == 0 %}
+Keskusteluiden määrä: 0
+{% else %}
 Keskusteluiden määrä: {{ row[1] }}
-<p>
+{% endif %}
+<p></p>
+{% if row[2] == 0 %}
+Viestien määrä: 0
+{% else %}
 Viestien määrä: {{ row [2] }}
 <p>
 Viimeisin viesti: {{ row[3].strftime("%d-%m-%Y %H:%M:%S") }}
+{% endif %}
+
 <p></p>
 <hr>
 {% endfor %}
@@ -32,7 +41,9 @@ Valitse keskustelu, jota haluat lukea:
 <hr>
 
 <a href="/search_messages">Etsi viestejä hakusanalla</a>
-
+<hr>
+<hr>
+Poista <a href="/delete_message">viestejä</a> tai <a href="/delete_conversation">keskusteualueita</a> 
 <hr>
 <hr>
 {% if session.user_role == 2 %}
