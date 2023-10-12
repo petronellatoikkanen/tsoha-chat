@@ -100,7 +100,6 @@ def show_conversation(convo_name):
 
 @app.route("/new_topic")
 def new_topics():
-    convos = conversations.get_list()
     return render_template("new_topic.html")
 
 
@@ -115,6 +114,43 @@ def create_topic():
 
 @app.route("/remove", methods=["get", "post"])
 def remove_topic():
+    users.require_role(2)
+
+    if request.method == "GET":
+        tpcs = topics.get_list()
+        return render_template("remove.html", tpcs=tpcs)
+
+    if request.method == "POST":
+        users.check_csrf()
+
+        if "topic" in request.form:
+            topic_id = request.form["topic"]
+            topics.remove_topic(topic_id)
+
+        return redirect("/")
+
+
+####################### secret topics #########################
+
+
+@app.route("/new_secret_topic")
+def new_secret_topics():
+    users_list = users.get_list()
+    return render_template("new_secret_topic.html", users_list=users_list)
+
+
+@app.route("/create_secret_topic", methods=["POST"])
+def create_secret_topic():
+    topic = request.form["secret_topic"]
+    users_list = request.form.getlist["user"]
+    if topics.create_topic(secret_topic, users_list):
+        return redirect("/")
+    else:
+        return render_template("error.html", message="Alueen luominen ei onnistut, yritä uudestaan")
+
+
+@app.route("/remove", methods=["get", "post"])
+def remove_secret_topic():
     users.require_role(2)
 
     if request.method == "GET":

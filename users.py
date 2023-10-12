@@ -47,3 +47,8 @@ def require_role(role):
 def check_csrf():
     if session["csrf_token"] != request.form["csrf_token"]:
         abort(403)
+
+def get_list():
+    sql = text("SELECT id, username FROM users")
+    result = db.session.execute(sql)
+    return result.fetchall()
