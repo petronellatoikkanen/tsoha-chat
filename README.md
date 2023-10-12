@@ -18,15 +18,17 @@ Käyttäjä voi kirjoittaa uuden viestin olemassa olevaan ketjuun.
 
 Ylläpitäjä voi lisätä ja poistaa keskustelualueita.
 
-
-Tavoite:
-
 Käyttäjä voi muokata luomansa ketjun otsikkoa sekä lähettämänsä viestin sisältöä. Käyttäjä voi myös poistaa ketjun tai viestin.
 
 Käyttäjä voi etsiä kaikki viestit, joiden osana on annettu sana.
 
 Ylläpitäjä voi luoda salaisen alueen ja määrittää, keillä käyttäjillä on pääsy alueelle.
 
+Tavoite:
+
+Ulkoasun muokkaus
+
+Hakutulosten korjaus (LOWER)
 
 Käynnistysohje:
 
