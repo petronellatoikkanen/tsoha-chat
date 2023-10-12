@@ -1,12 +1,13 @@
 from app import app
 from flask import render_template, request, redirect
-import messages, users, conversations, topics
+import messages, users, conversations, topics, secret_topics
 
 @app.route("/")
 def index():
     info = topics.indexinfo()
     convos = conversations.get_list()
-    return render_template("index.html", info=info, convos=convos)
+    secret_t = secret_topics.get_list()
+    return render_template("index.html", info=info, convos=convos, secret_t=secret_t)
 
 
 ####################### messages  #########################
@@ -141,9 +142,9 @@ def new_secret_topics():
 
 @app.route("/create_secret_topic", methods=["POST"])
 def create_secret_topic():
-    topic = request.form["secret_topic"]
-    users_list = request.form.getlist["user"]
-    if topics.create_topic(secret_topic, users_list):
+    secret_topic = request.form["secret_topic"]
+    users_list = request.form.getlist("users_list[]")
+    if secret_topics.create_secret_topic(secret_topic, users_list):
         return redirect("/")
     else:
         return render_template("error.html", message="Alueen luominen ei onnistut, yritä uudestaan")
