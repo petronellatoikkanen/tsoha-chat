@@ -3,27 +3,36 @@ import users
 from sqlalchemy.sql import text
 
 def get_list():
-    sql = text("SELECT id, secret_topic from secrettopics where visible = 1")
+    sql = text("SELECT id, secret_topic from secret_topics where visible = 1")
     result = db.session.execute(sql)
     return result.fetchall()
 
-def indexinfo():
-    # hakua pitää muokata
-    sql = text("select topics.topic, COALESCE(count(conversations.topic_name), 0), COALESCE(count(messages.content), 0), COALESCE(NULLIF(MAX(messages.sent_at), NULL), NULL) from topics left join conversations on topics.topic=conversations.topic_name left join messages on conversations.convo=messages.convo_name where topics.visible=1 group by topics.id")
+
+def get_secret_topic_id(secret_topic):
+    sql = text("SELECT id, secret_topic from secret_topics where visible = 1 and secret_topic=:secret_topic")
+    result = db.session.execute(sql, {"secret_topic":secret_topic})
+    secret_topic = result.fetchone()
+    return secret_topic[0]
+
+def index_list():
+    sql = text("SELECT id, secret_topic from secret_topics where visible = 1 group by id")
     result = db.session.execute(sql)
     return result.fetchall()
 
-def create_secret_topic(secret_topic, users_list):
+
+def create_secret_topic(secret_topic):
     creator_user_id = users.user_id()
     if creator_user_id == 0:
         return False
-    for user in users_list:
-        users_user_id =  user
-        sql = text("INSERT INTO secrettopics (secret_topic, creator_user_id, users_user_id, created) VALUES (:secret_topic, :creator_user_id, :users_user_id, NOW())")
-        db.session.execute(sql, {"secret_topic":secret_topic, "creator_user_id":creator_user_id, "users_user_id":users_user_id})
-
+    sql = text("INSERT INTO secret_topics (secret_topic, creator_user_id, created) VALUES (:secret_topic, :creator_user_id, NOW())")
+    db.session.execute(sql, {"secret_topic":secret_topic, "creator_user_id":creator_user_id})
     db.session.commit()
     return True
+
+def add_secret_topic_user(secret_topic_id, user_id):
+    sql = text("INSERT INTO secret_topics_users (secret_topic_id, user_id) VALUES (:secret_topic_id, :user_id)")
+    db.session.execute(sql, {"secret_topic_id":secret_topic_id, "user_id":user_id,})
+    db.session.commit()
 
 
 def remove_secret_topic(secret_topic_id):

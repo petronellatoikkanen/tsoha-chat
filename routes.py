@@ -6,12 +6,12 @@ import messages, users, conversations, topics, secret_topics
 def index():
     info = topics.indexinfo()
     convos = conversations.get_list()
-    secret_t = secret_topics.get_list()
+    secret_t = secret_topics.index_list()
     return render_template("index.html", info=info, convos=convos, secret_t=secret_t)
 
 
 ####################### messages  #########################
-## new, send, delete
+# # # new, send, delete
 @app.route("/new_message")
 def new_messages():
     convos = conversations.get_list()
@@ -42,7 +42,7 @@ def delete_message():
 
         return redirect("/")
 
-#search
+# # #search
 @app.route("/search_messages")
 def seacrh_m():
    return render_template("search_messages.html")
@@ -56,7 +56,7 @@ def search_message():
 
 
 #######################  conversations #########################
-## new, send, delete
+# # # new, send, delete
 @app.route("/new_conversation")
 def new_conversations():
     tpcs = topics.get_list()
@@ -87,7 +87,7 @@ def delete_conversation():
 
         return redirect("/")
 
-#view
+# # # view
 @app.route("/conversation/<convo_name>")
 def show_conversation(convo_name):
     convo_name = convo_name
@@ -97,7 +97,7 @@ def show_conversation(convo_name):
 
 
 ####################### topics #########################
-
+# # # create and delete
 
 @app.route("/new_topic")
 def new_topics():
@@ -144,8 +144,12 @@ def new_secret_topics():
 def create_secret_topic():
     secret_topic = request.form["secret_topic"]
     users_list = request.form.getlist("users_list[]")
-    if secret_topics.create_secret_topic(secret_topic, users_list):
+    if secret_topics.create_secret_topic(secret_topic):
+        secret_topic_id = secret_topics.get_secret_topic_id(secret_topic)
+        for user_id in users_list:
+            secret_topics.add_secret_topic_user(secret_topic_id, user_id)
         return redirect("/")
+    
     else:
         return render_template("error.html", message="Alueen luominen ei onnistut, yritä uudestaan")
 
