@@ -27,7 +27,7 @@ def send_message(content, convo):
 
 
 def search_message(word):
-    sql = text("SELECT M.sent_at, M.content, U.username, M.convo_name FROM messages M, users U, conversations C WHERE M.user_id=U.id AND m.visible=1 AND c.visible=1 AND content LIKE :word")
+    sql = text("SELECT M.sent_at, M.content, U.username, M.convo_name FROM messages M, users U, conversations C WHERE M.user_id=U.id AND m.visible=1 AND c.visible=1 AND LOWER(content) LIKE LOWER(:word)")
     result = db.session.execute(sql, {"word": '%'+ word + '%'})
     return result.fetchall()
 
