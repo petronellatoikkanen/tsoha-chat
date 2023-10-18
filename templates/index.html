@@ -23,8 +23,9 @@ Viimeisin viesti: {{ row[3].strftime("%d-%m-%Y %H:%M:%S") }}
 <hr>
 {% endfor %}
 
+Yksityiset keskustelualueet:
 {% for yk in secret_t %}
-Yksityinen keskustelualue: {{ yk }}
+{{ yk }}
 {% endfor %}
 <p>
 <hr>
