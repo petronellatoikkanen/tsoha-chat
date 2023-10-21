@@ -1,0 +1,12 @@
+<!doctype html>
+<title>Tsoha Chat - {% block title %}{% endblock %}</title>
+<h1>Tsoha Chat</h1>
+<a href="/">Etusivu</a>
+<a href="/login">Kirjautuminen</a>
+{% if session.user_id %}
+<a href="/conversations">Keskustelut</a>
+{% endif %}
+
+<hr>
+{% block content %}{% endblock %}
+<hr>
