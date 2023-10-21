@@ -1,3 +1,10 @@
+{% extends "layout.html" %}
+{% block title %}Etusivu{% endblock %}
+{% block content %}
+<h2>Etusivu</h2>
+Tervetuloa Tsoha Chattiin!
+
+
 {% if session.user_id %}
 Olet nyt kirjautunut sisään. 
 <hr>
@@ -23,32 +30,17 @@ Viimeisin viesti: {{ row[3].strftime("%d-%m-%Y %H:%M:%S") }}
 <hr>
 {% endfor %}
 
-Yksityiset keskustelualueet:
-{% for yk in secret_t %}
-{{ yk }}
-{% endfor %}
-<p>
-<hr>
 
 <a href="/new_message">Lähetä viesti</a> tai <a href="/new_conversation">aloita uusi keskustelu</a> 
 <p>
-<hr>
-<hr>
 
-Valitse keskustelu, jota haluat lukea:
-
-<ul>
-{% for convo in convos %}
-<li><a href="/conversation/{{ convo.convo }}">{{ convo.convo }}</a>
-{% endfor %}
-</ul>
 <hr>
 <hr>
 
 <a href="/search_messages">Etsi viestejä hakusanalla</a>
 <hr>
 <hr>
-Poista <a href="/delete_message">viestejä</a> tai <a href="/delete_conversation">keskusteualueita</a> 
+Poista <a href="/delete_message">viestejä</a> tai <a href="/delete_conversation">keskusteluita</a> 
 <hr>
 <hr>
 {% if session.user_role == 2 %}
@@ -61,8 +53,9 @@ Poista <a href="/delete_message">viestejä</a> tai <a href="/delete_conversation
 <a href="/logout">Kirjaudu ulos</a>
 {% else %}
 
-Tervetuloa Tsoha-chattiin! 
 <a href="/login">Kirjaudu sisään</a>
 <p>
 Uusi käyttäjä? Rekisteröidy tästä: <a href="/register">Rekisteröidy</a>
 {% endif %}
+
+{% endblock %}

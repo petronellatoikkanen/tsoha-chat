@@ -6,6 +6,12 @@
         
     {% endfor %}
 
+    {% for secret in secret_t %}
+
+    <input type="radio" name="secret" value="{{ secret[0] }}"> {{ secret[0] }} <br>
+        
+    {% endfor %}
+
     Uusi viesti: <br>
     <textarea name="content" rows="5" cols="50"></textarea>
     <br>

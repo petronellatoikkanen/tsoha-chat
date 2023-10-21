@@ -1,3 +1,7 @@
+{% extends "layout.html" %}
+{% block title %} Keskustelu {% endblock %}
+{% block content %}
+
 Keskustelu: {{ convo_name }}
 <hr>
 {% for message in msgs %}
@@ -9,5 +13,8 @@ Keskustelu: {{ convo_name }}
 <hr>
 {% endfor %}
 
-
 <a href="/new_message">Lisää uusi kommentti</a> tai <a href="/">Palaa etusivulle</a> 
+
+
+{% endblock %}
+
