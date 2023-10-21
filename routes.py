@@ -6,8 +6,17 @@ import messages, users, conversations, topics, secret_topics
 def index():
     info = topics.indexinfo()
     convos = conversations.get_list()
-    secret_t = secret_topics.index_list()
+    user_id = users.user_id()
+    secret_t = secret_topics.index_list(user_id)
     return render_template("index.html", info=info, convos=convos, secret_t=secret_t)
+
+@app.route("/conversations")
+def show_conversations():
+    info = topics.indexinfo()
+    convos = conversations.get_list()
+    user_id = users.user_id()
+    secret_t = secret_topics.index_list(user_id)
+    return render_template("conversations.html", info=info, convos=convos, secret_t=secret_t)
 
 
 ####################### messages  #########################
@@ -15,7 +24,9 @@ def index():
 @app.route("/new_message")
 def new_messages():
     convos = conversations.get_list()
-    return render_template("new_message.html", convos=convos)
+    user_id = users.user_id()
+    secret_t = secret_topics.index_list(user_id)
+    return render_template("new_message.html", convos=convos, secret_t=secret_t)
 
 @app.route("/send_message", methods=["POST"])
 def send_message():
