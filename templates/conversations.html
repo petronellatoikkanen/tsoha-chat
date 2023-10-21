@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block title %} Keskustelut {% endblock %}
+{% block content %}
+
+Valitse keskustelu, jota haluat lukea:
+
+<ul>
+{% for convo in convos %}
+<li><a href="/conversation/{{ convo.convo }}">{{ convo.convo }}</a>
+{% endfor %}
+</ul>
+
+{% if secret_t: %}
+
+Yksityiset keskustelualueet:
+<ul>
+{% for secret in secret_t %}
+<li><a href="/conversation/{{ secret[0] }}">{{ secret[0] }}</a>    
+{% endfor %}
+</ul>
+
+{% endif %}
+
+{% endblock %}
+
+
