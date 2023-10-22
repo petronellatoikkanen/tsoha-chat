@@ -9,8 +9,7 @@ CREATE TABLE topics (
     id SERIAL PRIMARY KEY,
     topic TEXT UNIQUE,
     user_id INTEGER REFERENCES users,
-    created_at TIMESTAMP,
-    visible INTEGER DEFAULT 1
+    created_at TIMESTAMP
 );
 
 
@@ -19,8 +18,7 @@ CREATE TABLE conversations (
     conversation TEXT UNIQUE,
     user_id INTEGER REFERENCES users,
     created_at TIMESTAMP,
-    topic_id INTEGER REFERENCES topics,
-    visible INTEGER DEFAULT 1
+    topic_id INTEGER REFERENCES topics
 );
 
 
@@ -29,18 +27,15 @@ CREATE TABLE messages (
     message TEXT,
     user_id INTEGER REFERENCES users,
     sent_at TIMESTAMP, 
-    altered TIMESTAMP,
     convo_id INTEGER REFERENCES conversations,
-    topic_id INTEGER REFERENCES topics,
-    visible INTEGER DEFAULT 1
+    topic_id INTEGER REFERENCES topics
 );
 
 CREATE TABLE secret_topics (
     id SERIAL PRIMARY KEY,
     secret_topic TEXT UNIQUE,
     user_id INTEGER REFERENCES users,
-    created_at TIMESTAMP,
-    visible INTEGER DEFAULT 1
+    created_at TIMESTAMP
 );
 
 CREATE TABLE secret_topics_users (
@@ -54,10 +49,7 @@ CREATE TABLE secret_messages (
     secret_message TEXT,
     user_id INTEGER REFERENCES users,
     sent_at TIMESTAMP, 
-    altered TIMESTAMP,
-    convo_id INTEGER REFERENCES conversations,
-    topic_id INTEGER REFERENCES topics,
-    visible INTEGER DEFAULT 1
+    secret_topic_id INTEGER REFERENCES secret_topics
 );
 
 
