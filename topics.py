@@ -3,12 +3,12 @@ import users
 from sqlalchemy.sql import text
 
 def get_list():
-    sql = text("SELECT id, topic FROM topics WHERE visible = 1")
+    sql = text("SELECT id, topic FROM topics ")
     result = db.session.execute(sql)
     return result.fetchall()
 
 def indexinfo():
-    sql = text("SELECT T.topic, COALESCE(count(distinct(C.conversation)), 0), COALESCE(count(M.message), 0), COALESCE(NULLIF(MAX(M.sent_at), NULL), NULL) FROM topics T LEFT JOIN conversations C on T.id=C.topic_id LEFT JOIN messages M on C.id=M.convo_id where T.visible=1 group by T.id")
+    sql = text("SELECT T.topic, COALESCE(count(distinct(C.conversation)), 0), COALESCE(count(M.message), 0), COALESCE(NULLIF(MAX(M.sent_at), NULL), NULL) FROM topics T LEFT JOIN conversations C on T.id=C.topic_id LEFT JOIN messages M on C.id=M.convo_id group by T.id")
     result = db.session.execute(sql)
     return result.fetchall()
 
@@ -27,14 +27,13 @@ def create_topic(topic):
 
 
 def remove_topic(topic_id):
-    sql =  text("UPDATE topics SET visible=0 WHERE id=:id")
+    sql =  text("DELETE FROM messages WHERE topic_id IN (:topic_id)")
+    db.session.execute(sql, {"topic_id":topic_id})
+
+    sql =  text("DELETE FROM conversations WHERE topic_id IN (:topic_id)")
+    db.session.execute(sql, {"topic_id":topic_id})
+
+    sql =  text("DELETE FROM topics WHERE id=:id")
     db.session.execute(sql, {"id":topic_id})
-    db.session.commit()
 
-    sql =  text("UPDATE conversations SET visible=0 WHERE topic_id=:topic_id")
-    db.session.execute(sql, {"topic_id":topic_id})
-    db.session.commit()
-
-    sql =  text("UPDATE messages SET visible=0 WHERE topic_id=:topic_id")
-    db.session.execute(sql, {"topic_id":topic_id})
     db.session.commit()
