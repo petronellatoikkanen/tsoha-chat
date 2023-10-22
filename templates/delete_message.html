@@ -1,21 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
 <form action="/delete_message" method="post">
+    <p>Minkä kommentin haluat poistaa?</p>
+    {% for message in msgs %}
+    <input type="radio" name="message" value="{{ message.id }}"> Keskustelu: {{ message[2] }}, viesti: {{message.message }} <br>
+    {% endfor %}
+    <p></p>
+    <input type="submit" value="Poista">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    </form>
 
-<p>Minkä kommentin haluat poistaa?</p>
+    <p></p>
+    <a href="/">Palaa takaisin</a>
 
-{% for message in msgs %}
 
-<input type="radio" name="message" value="{{ message.id }}"> Keskustelu:{{ message.convo_name }}, viesti: {{message.content }} <br>
-
-{% endfor %}
-
-<p>
-
-<input type="submit" value="Poista">
-
-<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-
-</form>
-
-<p>
-<a href="/">Palaa takaisin</a>
-
+{% endblock %}

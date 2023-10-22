@@ -1,9 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+
+{% if tpcs: %}
 <form action="/create_conversation" method="post">
     Keskustelualue, johon luoda uuden keskustelun:<br>
 
     {% for topic in tpcs %}
 
-    <input type="radio" name="topic" value="{{ topic.topic }}"> {{ topic.topic }} <br>
+    <input type="radio" name="topic_id" value="{{ topic.id }}"> {{ topic.topic }} <br>
     
     {% endfor %}
     
@@ -15,3 +19,11 @@
     </form>
 
     <a href="/">Palaa takaisin</a>
+
+{% else %}
+Ei vielä keskustelualueita, joihin luoda keskusteluja. Luo ensin keskustelualue etusivulla tai odota, että ylläpitäjä luo alueen. 
+<p></p>
+
+<a href="/">Palaa etusivulle</a>
+{% endif %}
+{% endblock %}

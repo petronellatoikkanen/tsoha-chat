@@ -1,21 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
 <form action="/delete_conversation" method="post">
-
-<p>Minkä keskustelun haluat poistaa?</p>
-
-{% for convo in convos %}
-
-<input type="radio" name="convo" value="{{ convo.id }}"> {{ convo.convo }} <br>
-
-{% endfor %}
-
-<p>
-
-<input type="submit" value="Poista">
-
-<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-
-</form>
-
-<p>
+    <p>Minkä keskustelun haluat poistaa?</p>
+    {% for convo in convos %}
+    <input type="radio" name="convo" value="{{ convo.id }}"> {{ convo.conversation }} <br>
+    {% endfor %}
+    <p></p>
+    <input type="submit" value="Poista">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    </form>
+    <p></p>
 <a href="/">Palaa takaisin</a>
 
+{% endblock %}

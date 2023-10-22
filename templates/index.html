@@ -1,61 +1,62 @@
 {% extends "layout.html" %}
-{% block title %}Etusivu{% endblock %}
 {% block content %}
-<h2>Etusivu</h2>
-Tervetuloa Tsoha Chattiin!
-
 
 {% if session.user_id %}
-Olet nyt kirjautunut sisään. 
-<hr>
-<hr>
-{% for row in info %}
-Keskustelualue: {{ row[0] }}
-<p>
-{% if row[1] == 0 %}
-Keskusteluiden määrä: 0
-{% else %}
-Keskusteluiden määrä: {{ row[1] }}
-{% endif %}
-<p></p>
-{% if row[2] == 0 %}
-Viestien määrä: 0
-{% else %}
-Viestien määrä: {{ row [2] }}
-<p>
-Viimeisin viesti: {{ row[3].strftime("%d-%m-%Y %H:%M:%S") }}
-{% endif %}
+    <hr>
+    {%if info%}
 
-<p></p>
-<hr>
-{% endfor %}
+        {% for row in info %}
+        Keskustelualue: {{ row[0] }}
+        <p></p>
+        {% if row[1] == 0 %}
+        Keskusteluiden määrä: 0
+        {% else %}
+        Keskusteluiden määrä: {{ row[1] }}
+        {% endif %}
+        <p></p>
+        {% if row[2] == 0 %}
+        Viestien määrä: 0
+        {% else %}
+        Viestien määrä: {{ row [2] }}
+        <p></p>
 
+        Viimeisin viesti: {{ row[3].strftime("%d-%m-%Y %H:%M:%S") }}
+        {% endif %}
 
-<a href="/new_message">Lähetä viesti</a> tai <a href="/new_conversation">aloita uusi keskustelu</a> 
-<p>
+        <p></p>
+        - - - 
+        <p></p>
+        {% endfor %}
 
-<hr>
-<hr>
+        <hr>
+        <hr>
 
-<a href="/search_messages">Etsi viestejä hakusanalla</a>
-<hr>
-<hr>
-Poista <a href="/delete_message">viestejä</a> tai <a href="/delete_conversation">keskusteluita</a> 
-<hr>
-<hr>
-{% if session.user_role == 2 %}
-<a href="/new_topic">Avaa uusi julkinen keskustelualue</a> tai <a href="/new_secret_topic">yksityinen keskustelualue</a>
-<p></p>
-<a href="/remove">Poista keskustelualue</a>
+        {% if session.user_role == 2 %}
+            Ylläpitäjän toiminnot:
+            <p></p>
+            Avaa <a href="/new_topic"> uusi julkinen keskustelualue</a> tai <a href="/new_secret_topic">yksityinen keskustelualue</a>
+            <p></p>
+            Poista <a href="/remove"> julkinen keskustelualue</a> {% if secret_t: %} tai <a href="/remove_secret_topic"> yksityinen keskustelualue</a> {% endif %}
+        {% endif %}
+
+    {% else %}
+
+        Ei vielä viestejä, keskusteluja tai keskustelualueita.
+        <p></p>
+        {% if session.user_role == 2 %}
+            Ylläpitäjän toiminnot:
+            <p></p>
+            <a href="/new_topic">Avaa uusi julkinen keskustelualue</a> tai <a href="/new_secret_topic">yksityinen keskustelualue</a>
+            <p></p>
+        {% else %}
+            Odota, että ylläpitäjä luo uuden keskustelualueen tai tee admin-tunnukset.
+        {% endif %}
+
 {% endif %}
 
 <p> </p>
 <a href="/logout">Kirjaudu ulos</a>
-{% else %}
 
-<a href="/login">Kirjaudu sisään</a>
-<p>
-Uusi käyttäjä? Rekisteröidy tästä: <a href="/register">Rekisteröidy</a>
 {% endif %}
 
 {% endblock %}

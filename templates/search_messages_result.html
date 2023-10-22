@@ -1,3 +1,7 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
 Viestit, joista löytyy hakusana: {{ word }}
 <hr>
 {% for message in msgs %}
@@ -14,3 +18,5 @@ Viestit, joista löytyy hakusana: {{ word }}
 
 <p>
 <a href="/">Palaa takaisin</a>
+
+{% endblock %}

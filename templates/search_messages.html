@@ -1,14 +1,18 @@
+{% extends "layout.html" %}
+
+{% block content %}
 <form action="/search_message" method="post">
     Sana, jolla haluat hakea viestejä: <br>
+        <p></p>
        <textarea name="word" rows="1" cols="20"></textarea>
        <br>
+       <p></p>
        <input type="submit" value="Etsi">
        </form>
 
 
-
-
-    <p>
+    <p></p>
     <a href="/">Palaa takaisin</a>
 
     
+{% endblock %}

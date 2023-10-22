@@ -1,22 +1,35 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+Keskustelu: {{ convo_conversation }}
+
 <form action="/send_message" method="post">
- Keskustelu, johon haluat kirjoittaa:<br>
-    {% for convo in convos %}
-
-    <input type="radio" name="convo" value="{{ convo.convo }}"> {{ convo.convo }} <br>
-        
-    {% endfor %}
-
-    {% for secret in secret_t %}
-
-    <input type="radio" name="secret" value="{{ secret[0] }}"> {{ secret[0] }} <br>
-        
-    {% endfor %}
 
     Uusi viesti: <br>
+    <p></p>
+
     <textarea name="content" rows="5" cols="50"></textarea>
     <br>
+    <input type="hidden" name="convo" value="{{ convo_conversation }}">
     <input type="submit" value="Lähetä">
     </form>
 
-    <p>
-    <a href="/">Palaa takaisin</a>
+    <p></p>
+    
+<hr>
+{% for message in msgs %}
+<i>Viesti:</i> {{ message[1] }}
+<p>
+<i>Lähettäjä:</i> {{ message[2] }}
+<p>
+<i>Aika:</i> {{ message[0].strftime("%Y-%m-%d %H:%M:%S") }}
+<hr>
+{% endfor %}
+
+
+
+    <a href="/">Palaa etusivulle</a>
+
+
+{% endblock %}
