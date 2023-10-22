@@ -1,26 +1,45 @@
 {% extends "layout.html" %}
-{% block title %} Keskustelut {% endblock %}
 {% block content %}
 
-Valitse keskustelu, jota haluat lukea:
-
-<ul>
-{% for convo in convos %}
-<li><a href="/conversation/{{ convo.convo }}">{{ convo.convo }}</a>
-{% endfor %}
-</ul>
-
-{% if secret_t: %}
-
-Yksityiset keskustelualueet:
-<ul>
-{% for secret in secret_t %}
-<li><a href="/conversation/{{ secret[0] }}">{{ secret[0] }}</a>    
-{% endfor %}
-</ul>
-
+{% if convos %}
+    Valitse keskustelu, jota haluat lukea tai <a href="/new_conversation">aloita uusi keskustelu</a> :
+    <ul>
+    {% for convo in convos %}
+    <li><a href="/conversation/{{ convo.conversation }}">{{ convo.conversation }}</a>
+    {% endfor %}
+    </ul>
+{% else %}
+    Ei vielä julkisia keskusteluita. Luo uusi keskustelu alla.
+    <p></p>
+    <a href="/new_conversation">Aloita uusi keskustelu</a> 
+    <p></p>
 {% endif %}
 
+<p></p>
+
+<hr>
+<hr>
+
+<p></p>
+
+{% if secret_t: %}
+    Yksityiset keskustelualueet:
+    <ul>
+    {% for secret in secret_t %}
+    <li><a href="/secret_topic/{{ secret[0] }}">{{ secret[0] }}</a>    
+    {% endfor %}
+    </ul>
+{% endif %}
+
+<hr>
+<hr>
+
+{% if convos %}
+    Poista <a href="/delete_message">omia julkisia viestejä</a> tai <a href="/delete_conversation">keskusteluita</a> 
+    <hr>
+    <hr>
+{% endif %}
+
+<a href="/">Palaa takaisin</a>
+
 {% endblock %}
-
-
