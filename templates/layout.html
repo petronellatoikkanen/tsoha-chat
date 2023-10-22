@@ -1,12 +1,41 @@
 <!doctype html>
-<title>Tsoha Chat - {% block title %}{% endblock %}</title>
-<h1>Tsoha Chat</h1>
-<a href="/">Etusivu</a>
-<a href="/login">Kirjautuminen</a>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<title>Tsoha Chat </title>
+
 {% if session.user_id %}
-<a href="/conversations">Keskustelut</a>
+<div class="container"></div>
+    <nav class="navbar navbar-expand-sm navbar-light">
+        <a class="navbar-brand" href="#">Tsoha Chat</a>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Etusivu</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/conversations">Keskustelut</a>  
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/search_messages">Etsi viestejä  </a> 
+            </li>
+        </ul>
+    </nav>
+
+
+{% else %}
+<hr>
+<div class="row">
+    <div class="col-8">
+      <h1>Tervetuloa Tsoha Chattiin!</h1>
+      <p>
+        Valmis chattailemaan? <a href="/login">Kirjaudu sisään</a>
+        <p>
+        Uusi käyttäjä? Rekisteröidy tästä: <a href="/register">Rekisteröidy</a>
+    </div>
+    
+</div>
 {% endif %}
 
 <hr>
-{% block content %}{% endblock %}
+{% block content %}
 <hr>
+{% endblock %}
